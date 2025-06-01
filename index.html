@@ -9,23 +9,24 @@
   <style>
     body {
       font-family: 'Pricedown', Arial, sans-serif;
-      background-color: rgba(0, 0, 0, 0.85);
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
       margin: 0;
-      position: relative;
-      z-index: 1;
+      background-color: rgba(0,0,0,0.85);
+      color: white;
+      overflow-x: hidden;
     }
 
     #ytbg {
       position: fixed;
       top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100vw; height: 100vh;
       z-index: -1;
       pointer-events: none;
       opacity: 0.25;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
     }
 
     h1 {
@@ -35,22 +36,41 @@
 
     .countdown {
       font-size: 1.8rem;
-      margin-bottom: 2rem;
     }
 
-    .ad-block {
-      background: #222;
-      padding: 1rem;
-      margin: 2rem 0;
-      border: 1px dashed #444;
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 2rem;
+      flex-wrap: wrap;
     }
 
-    .game, .leaderboard {
-      background: #222;
-      padding: 1.5rem;
-      margin: 2rem auto;
+    .left-panel {
+      flex: 1;
+      min-width: 320px;
       max-width: 500px;
+      background-color: rgba(34, 34, 34, 0.75);
+      padding: 1.5rem;
       border-radius: 10px;
+    }
+
+    .right-panel {
+      flex: 0 0 300px;
+      background-color: rgba(34, 34, 34, 0.75);
+      padding: 1rem;
+      border-radius: 10px;
+      position: sticky;
+      top: 2rem;
+      height: fit-content;
+    }
+
+    canvas {
+      display: block;
+      margin: 1rem auto;
+      background: #000;
+      border: 3px solid #444;
     }
 
     button {
@@ -64,56 +84,64 @@
       border-radius: 6px;
     }
 
-    canvas {
-      background: #000;
-      display: block;
-      margin: 1rem auto;
-      border: 3px solid #444;
-    }
-
     ul {
       text-align: left;
+    }
+
+    .bottom-ad {
+      text-align: center;
+      background: #222;
+      border-top: 1px dashed #444;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .right-panel {
+        position: static;
+        width: 100%;
+        max-width: 500px;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- YouTube trailer as background -->
-<iframe 
-  id="ytbg" 
-  src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&showinfo=0&modestbranding=1"
-  frameborder="0"
-  allow="autoplay"
-></iframe>
+<!-- Trailer background -->
+<iframe id="ytbg" src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&showinfo=0&modestbranding=1" frameborder="0" allow="autoplay"></iframe>
 
-<h1>GTA VI Countdown</h1>
-<div class="countdown" id="countdown">Loading countdown...</div>
+<header>
+  <h1>GTA VI Countdown</h1>
+  <div class="countdown" id="countdown">Loading...</div>
+</header>
 
-<div class="ad-block">
-  <p>[Ad Placeholder – Top Banner]</p>
+<div class="container">
+  <div class="left-panel">
+    <h2>🚨 Wanted Not Waisted 🚗</h2>
+    <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
+    <button id="startBtn">Start Game</button>
+    <canvas id="gameCanvas" width="300" height="400" style="display:none;"></canvas>
+    <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
+    <button id="retryBtn" style="display:none;">Retry</button>
+
+    <h3>🏆 Leaderboard</h3>
+    <ul id="leaderboardList"></ul>
+  </div>
+
+  <div class="right-panel">
+    <h3>📢 Sponsored</h3>
+    <p>[Ad Placeholder – Vertical Banner]</p>
+    <p style="margin-top: 2rem;">[Responsive Ad Space]</p>
+  </div>
 </div>
 
-<div class="game">
-  <h2>🚨 Wanted Not Waisted 🚗</h2>
-  <p>Use ⬅️ and ➡️ to dodge police cars. Score goes up the longer you survive!</p>
-  <button id="startBtn">Start Game</button>
-  <canvas id="gameCanvas" width="300" height="400" style="display:none;"></canvas>
-  <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
-  <button id="retryBtn" style="display:none;">Retry</button>
-</div>
-
-<div class="leaderboard">
-  <h2>🏆 Leaderboard</h2>
-  <ul id="leaderboardList"></ul>
-</div>
-
-<div class="ad-block">
+<div class="bottom-ad">
   <p>[Ad Placeholder – Bottom Banner]</p>
 </div>
-
-<p style="font-size: 0.85rem; color: #888; margin-top: 3rem;">
-  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
-</p>
 
 <!-- Sounds -->
 <audio id="siren" src="https://cdn.pixabay.com/audio/2021/09/15/audio_1cfa7f59c1.mp3" loop></audio>
@@ -137,7 +165,7 @@
     countdown.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
   }, 1000);
 
-  // Game
+  // Game Logic
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
   const startBtn = document.getElementById("startBtn");
