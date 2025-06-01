@@ -43,33 +43,30 @@
       font-size: 1.8rem;
     }
 
-    .container {
+    .layout {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 2rem;
-      padding: 2rem;
+      gap: 1rem;
+      padding: 1rem 2rem;
       flex-wrap: wrap;
     }
 
-    .left-panel {
-      flex: 1;
-      min-width: 320px;
-      max-width: 500px;
-      background-color: rgba(34, 34, 34, 0.6);
-      padding: 1.5rem;
-      border-radius: 10px;
-      margin-left: 2rem;
-    }
-
-    .right-panel {
-      flex: 0 0 300px;
+    .ad-left, .ad-right {
+      flex: 0 0 200px;
       background-color: rgba(34, 34, 34, 0.6);
       padding: 1rem;
       border-radius: 10px;
-      position: sticky;
-      top: 2rem;
-      height: fit-content;
+      min-height: 200px;
+    }
+
+    .content-panel {
+      flex: 1;
+      min-width: 300px;
+      max-width: 600px;
+      background-color: rgba(34, 34, 34, 0.6);
+      padding: 1.5rem;
+      border-radius: 10px;
     }
 
     canvas {
@@ -97,7 +94,6 @@
     .bottom-ad {
       text-align: center;
       background: rgba(34, 34, 34, 0.6);
-      border-top: 1px dashed #444;
       padding: 2rem;
       margin-top: 2rem;
     }
@@ -109,35 +105,37 @@
       padding-bottom: 2rem;
     }
 
-    @media (max-width: 768px) {
-      .container {
+    @media (max-width: 900px) {
+      .layout {
         flex-direction: column;
         align-items: center;
       }
-      .left-panel {
-        margin-left: 0;
-      }
-      .right-panel {
-        position: static;
-        width: 100%;
-        max-width: 500px;
+      .ad-left, .ad-right {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- YouTube Trailer Background -->
-<iframe id="ytbg" src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&showinfo=0&modestbranding=1" frameborder="0" allow="autoplay"></iframe>
+<!-- Background Trailer -->
+<iframe id="ytbg" src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&modestbranding=1" frameborder="0" allow="autoplay"></iframe>
 
+<!-- Logo & Countdown -->
 <header>
-  <img src="gta6-logo.png" alt="GTA VI Logo">
+  <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <h1>GTA VI Countdown</h1>
   <div class="countdown" id="countdown">Loading...</div>
 </header>
 
-<div class="container">
-  <div class="left-panel">
+<!-- Layout: Left Ad | Game + Leaderboard | Right Ad -->
+<div class="layout">
+  <div class="ad-left">
+    <h3>🔽 Ad</h3>
+    <p>[Left-Side Ad Placeholder]</p>
+  </div>
+
+  <div class="content-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
     <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
     <button id="startBtn">Start Game</button>
@@ -149,17 +147,19 @@
     <ul id="leaderboardList"></ul>
   </div>
 
-  <div class="right-panel">
+  <div class="ad-right">
     <h3>📢 Sponsored</h3>
-    <p>[Ad Placeholder – Top Banner]</p>
-    <p style="margin-top: 2rem;">[Ad Placeholder – Vertical or Responsive Ad]</p>
+    <p>[Top Banner Placeholder]</p>
+    <p style="margin-top: 2rem;">[Vertical or Responsive Ad]</p>
   </div>
 </div>
 
+<!-- Bottom Ad -->
 <div class="bottom-ad">
   <p>[Ad Placeholder – Bottom Banner]</p>
 </div>
 
+<!-- Disclaimer -->
 <p class="disclaimer">
   This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
 </p>
@@ -186,7 +186,7 @@
     countdown.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
   }, 1000);
 
-  // Game Logic
+  // Game logic
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
   const startBtn = document.getElementById("startBtn");
