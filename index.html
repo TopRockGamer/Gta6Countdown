@@ -10,7 +10,7 @@
     body {
       font-family: 'Pricedown', Arial, sans-serif;
       margin: 0;
-      background-color: rgba(0,0,0,0.85);
+      background-color: transparent;
       color: white;
       overflow-x: hidden;
     }
@@ -21,7 +21,7 @@
       width: 100vw; height: 100vh;
       z-index: -1;
       pointer-events: none;
-      opacity: 0.25;
+      opacity: 1;
     }
 
     header {
@@ -40,7 +40,7 @@
 
     .container {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: flex-start;
       gap: 2rem;
       padding: 2rem;
@@ -51,14 +51,15 @@
       flex: 1;
       min-width: 320px;
       max-width: 500px;
-      background-color: rgba(34, 34, 34, 0.75);
+      background-color: rgba(34, 34, 34, 0.6);
       padding: 1.5rem;
       border-radius: 10px;
+      margin-left: 2rem;
     }
 
     .right-panel {
       flex: 0 0 300px;
-      background-color: rgba(34, 34, 34, 0.75);
+      background-color: rgba(34, 34, 34, 0.6);
       padding: 1rem;
       border-radius: 10px;
       position: sticky;
@@ -90,16 +91,26 @@
 
     .bottom-ad {
       text-align: center;
-      background: #222;
+      background: rgba(34, 34, 34, 0.6);
       border-top: 1px dashed #444;
       padding: 2rem;
       margin-top: 2rem;
+    }
+
+    .disclaimer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+      padding-bottom: 2rem;
     }
 
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
         align-items: center;
+      }
+      .left-panel {
+        margin-left: 0;
       }
       .right-panel {
         position: static;
@@ -142,6 +153,10 @@
 <div class="bottom-ad">
   <p>[Ad Placeholder – Bottom Banner]</p>
 </div>
+
+<p class="disclaimer">
+  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
+</p>
 
 <!-- Sounds -->
 <audio id="siren" src="https://cdn.pixabay.com/audio/2021/09/15/audio_1cfa7f59c1.mp3" loop></audio>
