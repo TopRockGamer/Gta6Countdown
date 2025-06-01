@@ -2,158 +2,273 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTA VI Countdown</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GTA VI Countdown – Wanted Not Waisted</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial:400,700&display=swap">
   <style>
     body {
       margin: 0;
-      background-color: #000;
-      font-family: 'Arial', sans-serif;
-      color: #fff;
-      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background-color: black;
+      color: white;
     }
+
+    #background-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
     header {
-      background: #111;
       text-align: center;
       padding: 1rem;
     }
-    .top-banner-ad,
-    .bottom-banner-ad {
-      background: #222;
-      color: #aaa;
-      text-align: center;
-      padding: 1rem;
+
+    header img {
+      height: 80px;
     }
-    .logo {
-      display: block;
-      margin: 1rem auto 0 auto;
-      max-width: 300px;
-    }
+
     .countdown {
-      text-align: center;
-      font-size: 2.5rem;
-      margin: 1rem 0;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
     }
-    .main {
+
+    .container {
       display: flex;
       justify-content: space-between;
       padding: 1rem;
     }
-    .ad-left, .ad-right {
-      width: 150px;
-      background-color: #111;
-      text-align: center;
+
+    .ad-box {
+      background: #111;
       padding: 1rem;
-      border-radius: 10px;
-      color: #aaa;
-    }
-    .game-section {
-      flex: 1;
-      margin: 0 1rem;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 1rem;
-      border-radius: 12px;
-    }
-    canvas {
-      width: 100%;
-      border: 2px solid #444;
       border-radius: 8px;
-    }
-    #game-title {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      min-width: 120px;
       text-align: center;
-    }
-    #game-rules {
       font-size: 0.9rem;
-      margin-bottom: 1rem;
-      text-align: center;
+      color: #ccc;
     }
-    #leaderboard {
-      background-color: #222;
-      padding: 0.5rem;
+
+    .game-panel {
+      text-align: center;
+      background: rgba(0,0,0,0.7);
       border-radius: 8px;
+      padding: 1rem;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .game-panel h2 {
+      margin: 0.5rem 0;
+    }
+
+    canvas {
+      background: black;
+      border: 1px solid #444;
+      display: block;
+      margin: 1rem auto;
+    }
+
+    button {
+      background-color: #f40;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .leaderboard {
+      text-align: left;
       margin-top: 1rem;
     }
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      object-fit: cover;
-    }
-    .disclaimer {
+
+    .footer {
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
+      padding: 1rem;
       color: #777;
-      margin-top: 2rem;
+    }
+
+    .ad-top, .ad-bottom {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <!-- Top Banner Ad -->
-  <div class="top-banner-ad">[Top Ad Banner Placeholder]</div>
 
-  <!-- Logo -->
-  <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo" class="logo">
+<!-- YOUTUBE BACKGROUND -->
+<iframe id="background-video" 
+        src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&showinfo=0" 
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+</iframe>
 
-  <!-- Countdown Timer -->
+<header>
+  <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <div class="countdown" id="countdown"></div>
+</header>
 
-  <div class="main">
-    <!-- Left Ad -->
-    <div class="ad-left">[Left Side Ad]</div>
+<div class="ad-top">[Top Ad Banner Placeholder]</div>
 
-    <!-- Center Game Section with Title and Rules -->
-    <div class="game-section">
-      <div id="game-title">🚨 Wanted Not Waisted 🚗</div>
-      <div id="game-rules">Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</div>
-      <canvas id="gameCanvas" width="400" height="300"></canvas>
-      <div id="leaderboard">
-        🏆 Leaderboard<br>
-        #1: 5250<br>
-        #2: 1676<br>
-        #3: 1279<br>
-        #4: 1255<br>
-        #5: 1023
-      </div>
+<div class="container">
+  <div class="ad-box">[Left Side Ad]</div>
+
+  <div class="game-panel">
+    <h2>🚨 Wanted Not Waisted 🚗</h2>
+    <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
+
+    <button id="startBtn">Start Game</button>
+    <canvas id="gameCanvas" width="300" height="400"></canvas>
+
+    <div class="leaderboard">
+      <strong>🏆 Leaderboard</strong>
+      <ol id="leaderboardList">
+        <li>#1: 0</li>
+        <li>#2: 0</li>
+        <li>#3: 0</li>
+        <li>#4: 0</li>
+        <li>#5: 0</li>
+      </ol>
     </div>
-
-    <!-- Right Ad -->
-    <div class="ad-right">[Right Side Ad]</div>
   </div>
 
-  <!-- Bottom Banner Ad -->
-  <div class="bottom-banner-ad">[Ad Placeholder – Bottom Banner]</div>
+  <div class="ad-box">[Right Side Ad]</div>
+</div>
 
-  <!-- Background Video (Muted, Looping) -->
-  <video class="bg-video" autoplay muted loop>
-    <source src="trailer2.mp4" type="video/mp4">
-  </video>
+<div class="ad-bottom">[Ad Placeholder – Bottom Banner]</div>
 
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
-  </div>
+<div class="footer">
+  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
+</div>
 
-  <script>
-    // Countdown Logic
-    const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
-    const countdownElement = document.getElementById("countdown");
+<!-- Countdown Timer -->
+<script>
+  const countdownElement = document.getElementById("countdown");
+  const releaseDate = new Date("2026-05-26T00:00:00Z");
 
-    setInterval(() => {
-      const now = new Date().getTime();
-      const distance = releaseDate - now;
+  function updateCountdown() {
+    const now = new Date();
+    const diff = releaseDate - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
+    const minutes = Math.floor(diff / (1000 * 60) % 60);
+    const seconds = Math.floor(diff / 1000 % 60);
+    countdownElement.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
 
-      countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }, 1000);
-  </script>
+<!-- Game Logic -->
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const startBtn = document.getElementById("startBtn");
+  const leaderboardList = document.getElementById("leaderboardList");
+
+  let player = { x: 130, y: 360, width: 40, height: 30 };
+  let police = [];
+  let score = 0;
+  let gameRunning = false;
+  let speed = 2;
+  let keys = {};
+
+  const carImg = new Image();
+  carImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f697.png";
+
+  const policeImg = new Image();
+  policeImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f693.png";
+
+  function drawPlayer() {
+    ctx.drawImage(carImg, player.x, player.y, player.width, player.height);
+  }
+
+  function drawPolice() {
+    for (let p of police) {
+      ctx.drawImage(policeImg, p.x, p.y, p.width, p.height);
+    }
+  }
+
+  function update() {
+    if (!gameRunning) return;
+
+    if (keys["ArrowLeft"] && player.x > 0) player.x -= 5;
+    if (keys["ArrowRight"] && player.x < canvas.width - player.width) player.x += 5;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPlayer();
+
+    for (let p of police) {
+      p.y += speed;
+      ctx.drawImage(policeImg, p.x, p.y, p.width, p.height);
+      if (p.y > canvas.height) {
+        p.y = -40;
+        p.x = Math.floor(Math.random() * (canvas.width - 40));
+        score++;
+        if (score % 5 === 0) speed += 0.5;
+      }
+
+      if (
+        player.x < p.x + p.width &&
+        player.x + player.width > p.x &&
+        player.y < p.y + p.height &&
+        player.y + player.height > p.y
+      ) {
+        gameRunning = false;
+        updateLeaderboard(score);
+        startBtn.innerText = "Retry";
+        startBtn.style.display = "inline-block";
+      }
+    }
+
+    drawPolice();
+    ctx.fillStyle = "white";
+    ctx.fillText("Score: " + score, 10, 20);
+
+    if (gameRunning) requestAnimationFrame(update);
+  }
+
+  function startGame() {
+    police = [
+      { x: 20, y: -40, width: 40, height: 30 },
+      { x: 150, y: -160, width: 40, height: 30 }
+    ];
+    score = 0;
+    speed = 2;
+    player.x = 130;
+    gameRunning = true;
+    startBtn.style.display = "none";
+    update();
+  }
+
+  function updateLeaderboard(score) {
+    const scores = Array.from(leaderboardList.children).map(li =>
+      parseInt(li.innerText.split(":")[1])
+    );
+    scores.push(score);
+    const sorted = scores.sort((a, b) => b - a).slice(0, 5);
+    leaderboardList.innerHTML = sorted
+      .map((s, i) => `<li>#${i + 1}: ${s}</li>`)
+      .join("");
+  }
+
+  startBtn.addEventListener("click", startGame);
+  window.addEventListener("keydown", e => (keys[e.key] = true));
+  window.addEventListener("keyup", e => (keys[e.key] = false));
+</script>
+
 </body>
 </html>
