@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GTA VI Countdown – Wanted Not Waisted</title>
 
-  <!-- GTA-style font (Pricedown) -->
+  <!-- GTA-style font -->
   <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet" />
 
   <style>
@@ -64,6 +64,10 @@
     p#thanks {
       color: #0f0;
     }
+
+    ul {
+      text-align: left;
+    }
   </style>
 </head>
 <body>
@@ -95,3 +99,138 @@
   <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
   <button id="retryBtn" style="display:none;">Retry</button>
 </div>
+
+<div class="leaderboard">
+  <h2>🏆 Leaderboard</h2>
+  <ul id="leaderboardList"></ul>
+</div>
+
+<div class="ad-block">
+  <p>[Ad Placeholder – Bottom Banner]</p>
+</div>
+
+<p style="font-size: 0.85rem; color: #888; margin-top: 3rem;">
+  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
+</p>
+
+<script>
+  // Countdown
+  const countdown = document.getElementById("countdown");
+  const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
+  setInterval(() => {
+    const now = new Date().getTime();
+    const dist = releaseDate - now;
+    if (dist < 0) {
+      countdown.innerHTML = "GTA VI is OUT NOW!";
+      return;
+    }
+    const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+    const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((dist % (1000 * 60)) / 1000);
+    countdown.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+  }, 1000);
+
+  // Poll
+  document.getElementById("pollForm").onsubmit = function(e) {
+    e.preventDefault();
+    this.style.display = "none";
+    document.getElementById("thanks").style.display = "block";
+  };
+
+  // Game
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const startBtn = document.getElementById("startBtn");
+  const retryBtn = document.getElementById("retryBtn");
+  const scoreArea = document.getElementById("scoreArea");
+  const scoreText = document.getElementById("score");
+  const leaderboardList = document.getElementById("leaderboardList");
+
+  let playerX = 100;
+  const laneWidth = 100;
+  let policeY = [-200, -500, -800];
+  let policeX = [0, 100, 200];
+  let score = 0;
+  let gameOver = false;
+  let running = false;
+
+  function drawCar(x, y, emoji) {
+    ctx.font = "32px Arial";
+    ctx.fillText(emoji, x + 35, y + 35);
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawCar(playerX, 340, "🚗");
+    for (let i = 0; i < policeY.length; i++) {
+      drawCar(policeX[i], policeY[i], "🚔");
+      policeY[i] += 3;
+      if (policeY[i] > 400) {
+        policeY[i] = -Math.random() * 400 - 100;
+        policeX[i] = laneWidth * Math.floor(Math.random() * 3);
+      }
+      if (
+        policeY[i] + 30 > 340 &&
+        policeY[i] < 370 &&
+        policeX[i] === playerX
+      ) {
+        gameOver = true;
+      }
+    }
+
+    if (!gameOver) {
+      score++;
+      scoreText.textContent = score;
+      requestAnimationFrame(gameLoop);
+    } else {
+      ctx.fillStyle = "#f00";
+      ctx.font = "20px Arial";
+      ctx.fillText("Game Over!", 90, 200);
+      retryBtn.style.display = "inline-block";
+      saveScore(score);
+      showLeaderboard();
+    }
+  }
+
+  function saveScore(s) {
+    let scores = JSON.parse(localStorage.getItem("wantedScores") || "[]");
+    scores.push(s);
+    scores = scores.sort((a, b) => b - a).slice(0, 5);
+    localStorage.setItem("wantedScores", JSON.stringify(scores));
+  }
+
+  function showLeaderboard() {
+    const scores = JSON.parse(localStorage.getItem("wantedScores") || "[]");
+    leaderboardList.innerHTML = scores.map((s, i) => `<li>#${i + 1}: ${s}</li>`).join("");
+  }
+
+  startBtn.onclick = () => {
+    startBtn.style.display = "none";
+    canvas.style.display = "block";
+    scoreArea.style.display = "block";
+    retryBtn.style.display = "none";
+    playerX = 100;
+    policeY = [-200, -500, -800];
+    policeX = [0, 100, 200];
+    score = 0;
+    gameOver = false;
+    gameLoop();
+  };
+
+  retryBtn.onclick = () => {
+    startBtn.click();
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (!gameOver) {
+      if (e.key === "ArrowLeft" && playerX > 0) playerX -= laneWidth;
+      if (e.key === "ArrowRight" && playerX < 200) playerX += laneWidth;
+    }
+  });
+
+  showLeaderboard();
+</script>
+
+</body>
+</html>
