@@ -10,6 +10,7 @@
       font-family: Arial, sans-serif;
       background-color: black;
       color: white;
+      overflow-x: hidden;
     }
 
     #background-video {
@@ -47,6 +48,7 @@
     .container {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
       padding: 1rem;
       gap: 1rem;
     }
@@ -107,8 +109,8 @@
 <body>
 
 <!-- YouTube Background Trailer -->
-<iframe id="background-video" 
-        src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&showinfo=0" 
+<iframe id="background-video"
+        src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&showinfo=0"
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen>
@@ -126,8 +128,6 @@
 <!-- Main Content -->
 <div class="container">
   <div class="ad-box">[Left Side Ad]</div>
-
-  <div style="flex: 1;"></div>
 
   <div class="game-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
@@ -191,6 +191,7 @@
   let gameRunning = false;
   let speed = 2;
   let keys = {};
+  let gameLoop;
 
   const carImg = new Image();
   carImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f697.png";
@@ -198,33 +199,33 @@
   const policeImg = new Image();
   policeImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f693.png";
 
-  function drawPlayer() {
-    ctx.drawImage(carImg, player.x, player.y, player.width, player.height);
-  }
-
-  function drawPolice() {
-    for (let p of police) {
-      ctx.drawImage(policeImg, p.x, p.y, p.width, p.height);
+  function spawnPolice() {
+    const lanes = [30, 110, 190];
+    const used = [];
+    while (used.length < 2) {
+      const lane = lanes[Math.floor(Math.random() * lanes.length)];
+      if (!used.includes(lane)) used.push(lane);
     }
+
+    police = used.map((x, i) => ({
+      x: x,
+      y: -60 * (i + 1),
+      width: 40,
+      height: 30
+    }));
   }
 
-  function update() {
-    if (!gameRunning) return;
+  function updateGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (keys["ArrowLeft"] && player.x > 0) player.x -= 5;
     if (keys["ArrowRight"] && player.x < canvas.width - player.width) player.x += 5;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPlayer();
+    ctx.drawImage(carImg, player.x, player.y, player.width, player.height);
 
     for (let p of police) {
       p.y += speed;
-      if (p.y > canvas.height) {
-        p.y = -40;
-        p.x = Math.floor(Math.random() * (canvas.width - 40));
-        score++;
-        if (score % 2 === 0 && speed < 12) speed += 0.3; // Game gets harder faster
-      }
+      ctx.drawImage(policeImg, p.x, p.y, p.width, p.height);
 
       if (
         player.x < p.x + p.width &&
@@ -233,35 +234,43 @@
         player.y + player.height > p.y
       ) {
         gameRunning = false;
+        cancelAnimationFrame(gameLoop);
         updateLeaderboard(score);
-        startBtn.innerText = "Retry";
+        startBtn.textContent = "Retry";
         startBtn.style.display = "inline-block";
+        return;
+      }
+
+      if (p.y > canvas.height) {
+        p.y = -60;
+        p.x = [30, 110, 190][Math.floor(Math.random() * 3)];
+        score++;
+        if (score % 2 === 0 && speed < 12) speed += 0.3;
       }
     }
 
-    drawPolice();
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + score, 10, 20);
 
-    if (gameRunning) requestAnimationFrame(update);
+    if (gameRunning) {
+      gameLoop = requestAnimationFrame(updateGame);
+    }
   }
 
   function startGame() {
-    police = [
-      { x: 20, y: -40, width: 40, height: 30 },
-      { x: 150, y: -160, width: 40, height: 30 }
-    ];
+    player.x = 130;
     score = 0;
     speed = 2;
-    player.x = 130;
+    keys = {};
     gameRunning = true;
     startBtn.style.display = "none";
-    update();
+    spawnPolice();
+    updateGame();
   }
 
   function updateLeaderboard(score) {
     const scores = Array.from(leaderboardList.children).map(li =>
-      parseInt(li.innerText.split(":")[1])
+      parseInt(li.textContent.split(":")[1])
     );
     scores.push(score);
     const sorted = scores.sort((a, b) => b - a).slice(0, 5);
