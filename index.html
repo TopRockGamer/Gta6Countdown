@@ -18,13 +18,13 @@
       z-index: 1;
     }
 
-    #bgVideo {
+    #ytbg {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
       z-index: -1;
+      pointer-events: none;
       opacity: 0.25;
     }
 
@@ -78,10 +78,13 @@
 </head>
 <body>
 
-<!-- GTA VI Trailer Background -->
-<video autoplay muted loop playsinline id="bgVideo">
-  <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-city-at-night-1811/1080p.mp4" type="video/mp4">
-</video>
+<!-- YouTube trailer as background -->
+<iframe 
+  id="ytbg" 
+  src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&showinfo=0&modestbranding=1"
+  frameborder="0"
+  allow="autoplay"
+></iframe>
 
 <h1>GTA VI Countdown</h1>
 <div class="countdown" id="countdown">Loading countdown...</div>
@@ -176,7 +179,6 @@
       cop.y += 3;
 
       if (cop.y > 400) {
-        // Smart re-spawn: pick a lane not already occupied
         const occupiedLanes = policeCars.map(p => p.x);
         let newLane;
         do {
@@ -202,7 +204,6 @@
       score++;
       scoreText.textContent = score;
 
-      // Add more cops based on score
       if (score === 250) numCops = 2;
       if (score === 600) numCops = 3;
       if (policeCars.length < numCops) {
