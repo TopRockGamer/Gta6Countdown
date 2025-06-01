@@ -2,334 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GTA VI Countdown – Wanted Not Waisted</title>
-  <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTA VI Countdown</title>
   <style>
     body {
-      font-family: 'Pricedown', Arial, sans-serif;
       margin: 0;
-      background-color: transparent;
-      color: white;
+      background-color: #000;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
       overflow-x: hidden;
     }
-
-    #ytbg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 1;
-    }
-
-    .top-ad {
-      text-align: center;
-      background-color: rgba(34, 34, 34, 0.6);
-      padding: 1rem;
-      font-size: 1rem;
-    }
-
     header {
+      background: #111;
       text-align: center;
       padding: 1rem;
     }
-
-    header img {
-      max-width: 220px;
-      margin-bottom: 1rem;
+    .top-banner-ad,
+    .bottom-banner-ad {
+      background: #222;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
     }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+    .logo {
+      display: block;
+      margin: 1rem auto 0 auto;
+      max-width: 300px;
     }
-
     .countdown {
-      font-size: 1.8rem;
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 1rem 0;
     }
-
-    .layout {
+    .main {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      flex-wrap: wrap;
+      padding: 1rem;
     }
-
-    .ad-left {
-      flex: 0 0 200px;
-      background-color: rgba(34, 34, 34, 0.6);
+    .ad-left, .ad-right {
+      width: 150px;
+      background-color: #111;
+      text-align: center;
       padding: 1rem;
       border-radius: 10px;
-      min-height: 200px;
+      color: #aaa;
     }
-
-    .content-panel {
+    .game-section {
       flex: 1;
-      min-width: 300px;
-      max-width: 600px;
-      background-color: rgba(34, 34, 34, 0.6);
-      padding: 1.5rem;
-      border-radius: 10px;
+      margin: 0 1rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 1rem;
+      border-radius: 12px;
     }
-
-    .game-panel {
-      flex: 0 0 300px;
-      background-color: rgba(34, 34, 34, 0.6);
-      padding: 1.5rem;
-      border-radius: 10px;
-    }
-
     canvas {
-      display: block;
-      margin: 1rem auto;
-      background: #000;
-      border: 3px solid #444;
+      width: 100%;
+      border: 2px solid #444;
+      border-radius: 8px;
     }
-
-    button {
-      background: #ff4d00;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      color: white;
-      font-size: 1rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-
-    ul {
-      text-align: left;
-    }
-
-    .bottom-ad {
+    #game-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
       text-align: center;
-      background: rgba(34, 34, 34, 0.6);
-      padding: 2rem;
-      margin-top: 2rem;
     }
-
+    #game-rules {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    #leaderboard {
+      background-color: #222;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
     .disclaimer {
       text-align: center;
-      font-size: 0.85rem;
-      color: #aaa;
-      padding-bottom: 2rem;
-    }
-
-    @media (max-width: 900px) {
-      .layout {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .ad-left, .game-panel {
-        width: 100%;
-      }
+      font-size: 0.75rem;
+      color: #777;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
+  <!-- Top Banner Ad -->
+  <div class="top-banner-ad">[Top Ad Banner Placeholder]</div>
 
-<!-- YouTube Background -->
-<iframe id="ytbg" src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&modestbranding=1" frameborder="0" allow="autoplay"></iframe>
+  <!-- Logo -->
+  <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo" class="logo">
 
-<!-- Top Banner Ad -->
-<div class="top-ad">
-  [Top Ad Banner Placeholder]
-</div>
+  <!-- Countdown Timer -->
+  <div class="countdown" id="countdown"></div>
 
-<!-- Logo + Countdown -->
-<header>
-  <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
-  <h1>GTA VI Countdown</h1>
-  <div class="countdown" id="countdown">Loading...</div>
-</header>
+  <div class="main">
+    <!-- Left Ad -->
+    <div class="ad-left">[Left Side Ad]</div>
 
-<!-- Layout -->
-<div class="layout">
-  <!-- Left Ad -->
-  <div class="ad-left">
-    <h3>🔽 Ad</h3>
-    <p>[Left-Side Ad Placeholder]</p>
+    <!-- Game Section -->
+    <div class="game-section">
+      <div id="game-title">Wanted Not Waisted</div>
+      <div id="game-rules">Avoid the cops, collect power-ups, and survive as long as you can!</div>
+      <canvas id="gameCanvas" width="400" height="300"></canvas>
+      <div id="leaderboard">Leaderboard: <br> [Local Scores Appear Here]</div>
+    </div>
+
+    <!-- Right Ad -->
+    <div class="ad-right">[Right Side Ad]</div>
   </div>
 
-  <!-- Description Panel -->
-  <div class="content-panel">
-    <h2>🚨 Wanted Not Waisted 🚗</h2>
-    <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
+  <!-- Bottom Banner Ad -->
+  <div class="bottom-banner-ad">[Bottom Ad Banner Placeholder]</div>
+
+  <!-- Background Video (Muted, Looping) -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="trailer2.mp4" type="video/mp4">
+  </video>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    This is a fan-made countdown. Not affiliated with Rockstar Games or Take-Two Interactive.
   </div>
 
-  <!-- Game & Leaderboard -->
-  <div class="game-panel">
-    <button id="startBtn">Start Game</button>
-    <canvas id="gameCanvas" width="300" height="400" style="display:none;"></canvas>
-    <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
-    <button id="retryBtn" style="display:none;">Retry</button>
-    <h3>🏆 Leaderboard</h3>
-    <ul id="leaderboardList"></ul>
-  </div>
-</div>
+  <script>
+    // Countdown Logic
+    const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
+    const countdownElement = document.getElementById("countdown");
 
-<!-- Bottom Ad -->
-<div class="bottom-ad">
-  [Ad Placeholder – Bottom Banner]
-</div>
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = releaseDate - now;
 
-<!-- Disclaimer -->
-<p class="disclaimer">
-  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
-</p>
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-<!-- Audio -->
-<audio id="siren" src="https://cdn.pixabay.com/audio/2021/09/15/audio_1cfa7f59c1.mp3" loop></audio>
-<audio id="crash" src="https://cdn.pixabay.com/audio/2022/03/30/audio_2854e6aafc.mp3"></audio>
-
-<script>
-  const countdown = document.getElementById("countdown");
-  const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
-  setInterval(() => {
-    const now = new Date().getTime();
-    const dist = releaseDate - now;
-    if (dist < 0) {
-      countdown.innerHTML = "GTA VI is OUT NOW!";
-      return;
-    }
-    const d = Math.floor(dist / (1000 * 60 * 60 * 24));
-    const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((dist % (1000 * 60)) / 1000);
-    countdown.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
-  }, 1000);
-
-  const canvas = document.getElementById("gameCanvas");
-  const ctx = canvas.getContext("2d");
-  const startBtn = document.getElementById("startBtn");
-  const retryBtn = document.getElementById("retryBtn");
-  const scoreArea = document.getElementById("scoreArea");
-  const scoreText = document.getElementById("score");
-  const leaderboardList = document.getElementById("leaderboardList");
-  const siren = document.getElementById("siren");
-  const crash = document.getElementById("crash");
-
-  let playerX = 100;
-  const laneWidth = 100;
-  let score = 0;
-  let gameOver = false;
-  let numCops = 1;
-  let policeCars = [];
-
-  function resetPolice() {
-    policeCars = [];
-    for (let i = 0; i < numCops; i++) {
-      policeCars.push({
-        x: laneWidth * Math.floor(Math.random() * 3),
-        y: -Math.random() * 400 - 100
-      });
-    }
-  }
-
-  function drawCar(x, y, emoji) {
-    ctx.font = "32px Arial";
-    ctx.fillText(emoji, x + 35, y + 35);
-  }
-
-  function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCar(playerX, 340, "🚗");
-
-    for (let cop of policeCars) {
-      drawCar(cop.x, cop.y, "🚔");
-      cop.y += 3;
-
-      if (cop.y > 400) {
-        const occupiedLanes = policeCars.map(p => p.x);
-        let newLane;
-        do {
-          newLane = laneWidth * Math.floor(Math.random() * 3);
-        } while (occupiedLanes.includes(newLane) && occupiedLanes.length < 3);
-
-        cop.y = -Math.random() * 400 - 100;
-        cop.x = newLane;
-      }
-
-      if (
-        cop.y + 30 > 340 &&
-        cop.y < 370 &&
-        cop.x === playerX
-      ) {
-        gameOver = true;
-        crash.play();
-        siren.pause();
-      }
-    }
-
-    if (!gameOver) {
-      score++;
-      scoreText.textContent = score;
-
-      if (score === 250) numCops = 2;
-      if (score === 600) numCops = 3;
-      if (policeCars.length < numCops) {
-        policeCars.push({
-          x: laneWidth * Math.floor(Math.random() * 3),
-          y: -Math.random() * 300 - 100
-        });
-      }
-
-      requestAnimationFrame(gameLoop);
-    } else {
-      ctx.fillStyle = "#f00";
-      ctx.font = "20px Arial";
-      ctx.fillText("Game Over!", 90, 200);
-      retryBtn.style.display = "inline-block";
-      saveScore(score);
-      showLeaderboard();
-    }
-  }
-
-  function saveScore(s) {
-    let scores = JSON.parse(localStorage.getItem("wantedScores") || "[]");
-    scores.push(s);
-    scores = scores.sort((a, b) => b - a).slice(0, 5);
-    localStorage.setItem("wantedScores", JSON.stringify(scores));
-  }
-
-  function showLeaderboard() {
-    const scores = JSON.parse(localStorage.getItem("wantedScores") || "[]");
-    leaderboardList.innerHTML = scores.map((s, i) => `<li>#${i + 1}: ${s}</li>`).join("");
-  }
-
-  startBtn.onclick = () => {
-    startBtn.style.display = "none";
-    canvas.style.display = "block";
-    scoreArea.style.display = "block";
-    retryBtn.style.display = "none";
-    playerX = 100;
-    score = 0;
-    gameOver = false;
-    numCops = 1;
-    resetPolice();
-    siren.currentTime = 0;
-    siren.play();
-    gameLoop();
-  };
-
-  retryBtn.onclick = () => {
-    startBtn.click();
-  };
-
-  document.addEventListener("keydown", (e) => {
-    if (!gameOver) {
-      if (e.key === "ArrowLeft" && playerX > 0) playerX -= laneWidth;
-      if (e.key === "ArrowRight" && playerX < 200) playerX += laneWidth;
-    }
-  });
-
-  showLeaderboard();
-</script>
-
+      countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s until launch`;
+    }, 1000);
+  </script>
 </body>
 </html>
