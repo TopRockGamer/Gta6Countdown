@@ -42,6 +42,7 @@
       display: flex;
       justify-content: space-between;
       padding: 1rem;
+      gap: 1rem;
     }
 
     .ad-box {
@@ -59,7 +60,6 @@
       background: rgba(0,0,0,0.7);
       border-radius: 8px;
       padding: 1rem;
-      flex: 1;
       max-width: 400px;
     }
 
@@ -107,7 +107,7 @@
 </head>
 <body>
 
-<!-- YOUTUBE BACKGROUND -->
+<!-- YouTube Background Trailer -->
 <iframe id="background-video" 
         src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&showinfo=0" 
         frameborder="0"
@@ -115,15 +115,20 @@
         allowfullscreen>
 </iframe>
 
+<!-- Header with Logo & Countdown -->
 <header>
   <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <div class="countdown" id="countdown"></div>
 </header>
 
+<!-- Top Ad Banner -->
 <div class="ad-top">[Top Ad Banner Placeholder]</div>
 
+<!-- Main Content Area -->
 <div class="container">
   <div class="ad-box">[Left Side Ad]</div>
+
+  <div style="flex: 1"></div> <!-- Spacer -->
 
   <div class="game-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
@@ -147,13 +152,15 @@
   <div class="ad-box">[Right Side Ad]</div>
 </div>
 
+<!-- Bottom Ad Banner -->
 <div class="ad-bottom">[Ad Placeholder – Bottom Banner]</div>
 
+<!-- Footer Disclaimer -->
 <div class="footer">
   This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
 </div>
 
-<!-- Countdown Timer -->
+<!-- Countdown Script -->
 <script>
   const countdownElement = document.getElementById("countdown");
   const releaseDate = new Date("2026-05-26T00:00:00Z");
@@ -172,7 +179,7 @@
   updateCountdown();
 </script>
 
-<!-- Game Logic -->
+<!-- Game Script -->
 <script>
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
