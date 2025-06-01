@@ -65,14 +65,10 @@
 
     .game-panel {
       text-align: center;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 8px;
       padding: 1rem;
       max-width: 400px;
-    }
-
-    .game-panel h2 {
-      margin: 0.5rem 0;
     }
 
     canvas {
@@ -108,31 +104,29 @@
 </head>
 <body>
 
-<!-- YouTube Background Trailer -->
+<!-- Background Trailer -->
 <iframe id="background-video"
-        src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&showinfo=0"
+        src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c"
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen>
 </iframe>
 
-<!-- Header -->
 <header>
   <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <div class="countdown" id="countdown"></div>
 </header>
 
-<!-- Top Ad -->
-<div class="ad-top">[Top Ad Banner Placeholder]</div>
+<div class="ad-top">[Top Ad Placeholder]</div>
 
-<!-- Main Content -->
 <div class="container">
-  <div class="ad-box">[Left Side Ad]</div>
+  <div class="ad-box">[Left Ad]</div>
+
+  <div style="flex:1;"></div>
 
   <div class="game-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
     <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
-
     <button id="startBtn">Start Game</button>
     <canvas id="gameCanvas" width="300" height="400"></canvas>
 
@@ -148,37 +142,32 @@
     </div>
   </div>
 
-  <div class="ad-box">[Right Side Ad]</div>
+  <div class="ad-box">[Right Ad]</div>
 </div>
 
-<!-- Bottom Ad -->
 <div class="ad-bottom">[Bottom Ad Placeholder]</div>
 
-<!-- Footer -->
 <div class="footer">
   This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
 </div>
 
-<!-- Countdown Script -->
 <script>
+  // Countdown
   const countdownElement = document.getElementById("countdown");
   const releaseDate = new Date("2026-05-26T00:00:00Z");
-
   function updateCountdown() {
     const now = new Date();
     const diff = releaseDate - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
-    const minutes = Math.floor(diff / (1000 * 60) % 60);
-    const seconds = Math.floor(diff / 1000 % 60);
-    countdownElement.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
-
   setInterval(updateCountdown, 1000);
   updateCountdown();
 </script>
 
-<!-- Game Script -->
 <script>
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
@@ -191,7 +180,6 @@
   let gameRunning = false;
   let speed = 2;
   let keys = {};
-  let gameLoop;
 
   const carImg = new Image();
   carImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f697.png";
@@ -202,6 +190,7 @@
   function spawnPolice() {
     const lanes = [30, 110, 190];
     const used = [];
+
     while (used.length < 2) {
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
       if (!used.includes(lane)) used.push(lane);
@@ -216,6 +205,8 @@
   }
 
   function updateGame() {
+    if (!gameRunning) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (keys["ArrowLeft"] && player.x > 0) player.x -= 5;
@@ -234,7 +225,6 @@
         player.y + player.height > p.y
       ) {
         gameRunning = false;
-        cancelAnimationFrame(gameLoop);
         updateLeaderboard(score);
         startBtn.textContent = "Retry";
         startBtn.style.display = "inline-block";
@@ -242,19 +232,17 @@
       }
 
       if (p.y > canvas.height) {
-        p.y = -60;
+        p.y = -40;
         p.x = [30, 110, 190][Math.floor(Math.random() * 3)];
         score++;
-        if (score % 2 === 0 && speed < 12) speed += 0.3;
+        if (score % 2 === 0 && speed < 10) speed += 0.4;
       }
     }
 
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + score, 10, 20);
 
-    if (gameRunning) {
-      gameLoop = requestAnimationFrame(updateGame);
-    }
+    requestAnimationFrame(updateGame);
   }
 
   function startGame() {
