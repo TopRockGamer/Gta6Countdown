@@ -2,19 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTA VI Countdown – Fan Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GTA VI Countdown – Wanted Not Waisted</title>
+
+  <!-- GTA-style font (Pricedown) -->
+  <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet" />
+
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Pricedown', Arial, sans-serif;
       background-color: #111;
       color: #fff;
       text-align: center;
-      margin: 0;
       padding: 2rem;
+      margin: 0;
     }
-    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-    .countdown { font-size: 1.8rem; margin: 1rem 0 2rem; }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .countdown {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
 
     .ad-block {
       background: #222;
@@ -23,7 +35,7 @@
       border: 1px dashed #444;
     }
 
-    .poll, .game {
+    .poll, .game, .leaderboard {
       background: #222;
       padding: 1.5rem;
       margin: 2rem auto;
@@ -45,7 +57,7 @@
     canvas {
       background: #000;
       display: block;
-      margin: 0 auto;
+      margin: 1rem auto;
       border: 3px solid #444;
     }
 
@@ -56,121 +68,30 @@
 </head>
 <body>
 
-  <h1>GTA VI Countdown</h1>
-  <div class="countdown" id="countdown">Loading countdown...</div>
+<h1>GTA VI Countdown</h1>
+<div class="countdown" id="countdown">Loading countdown...</div>
 
-  <div class="ad-block">
-    <!-- Top ad placeholder -->
-    <p>[Ad Placeholder – Top Banner]</p>
-  </div>
+<div class="ad-block">
+  <p>[Ad Placeholder – Top Banner]</p>
+</div>
 
-  <div class="poll">
-    <h2>What are you most hyped for in GTA VI?</h2>
-    <form id="pollForm">
-      <label><input type="radio" name="vote"> Vice City Map</label><br>
-      <label><input type="radio" name="vote"> Story & Characters</label><br>
-      <label><input type="radio" name="vote"> Online Mode</label><br>
-      <label><input type="radio" name="vote"> Graphics & AI</label><br><br>
-      <button type="submit">Vote</button>
-    </form>
-    <p id="thanks" style="display:none;">Thanks for voting!</p>
-  </div>
+<div class="poll">
+  <h2>What are you most hyped for in GTA VI?</h2>
+  <form id="pollForm">
+    <label><input type="radio" name="vote"> GTA Online</label><br>
+    <label><input type="radio" name="vote"> Story</label><br>
+    <label><input type="radio" name="vote"> Strip Club</label><br>
+    <label><input type="radio" name="vote"> Being Wanted</label><br><br>
+    <button type="submit">Vote</button>
+  </form>
+  <p id="thanks" style="display:none;">Thanks for voting!</p>
+</div>
 
-  <div class="game">
-    <h2>🚗 Avoid the 🚔!</h2>
-    <p>Use ⬅️ and ➡️ keys to steer. Score goes up the longer you survive!</p>
-    <canvas id="gameCanvas" width="300" height="400"></canvas>
-    <p>Score: <span id="score">0</span></p>
-  </div>
-
-  <div class="ad-block">
-    <!-- Bottom ad placeholder -->
-    <p>[Ad Placeholder – Bottom Banner]</p>
-  </div>
-
-  <p style="font-size: 0.85rem; color: #888; margin-top: 3rem;">
-    This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
-  </p>
-
-  <script>
-    // Countdown Timer
-    const countdown = document.getElementById("countdown");
-    const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
-    setInterval(() => {
-      const now = new Date().getTime();
-      const dist = releaseDate - now;
-      if (dist < 0) {
-        countdown.innerHTML = "GTA VI is OUT NOW!";
-        return;
-      }
-      const days = Math.floor(dist / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((dist % (1000 * 60)) / 1000);
-      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }, 1000);
-
-    // Poll
-    document.getElementById("pollForm").onsubmit = function(e) {
-      e.preventDefault();
-      this.style.display = "none";
-      document.getElementById("thanks").style.display = "block";
-    };
-
-    // Mini Game
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const laneWidth = 100;
-    let playerX = 100;
-    let policeY = [-200, -400, -600];
-    let policeX = [0, 100, 200];
-    let score = 0;
-    let gameOver = false;
-
-    function drawCar(x, y, emoji) {
-      ctx.font = "32px Arial";
-      ctx.fillText(emoji, x + 35, y + 35);
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawCar(playerX, 340, "🚗");
-      for (let i = 0; i < policeY.length; i++) {
-        drawCar(policeX[i], policeY[i], "🚔");
-        policeY[i] += 3;
-        if (policeY[i] > 400) {
-          policeY[i] = -Math.random() * 300 - 100;
-          policeX[i] = laneWidth * Math.floor(Math.random() * 3);
-        }
-
-        if (
-          policeY[i] + 30 > 340 &&
-          policeY[i] < 370 &&
-          policeX[i] === playerX
-        ) {
-          gameOver = true;
-        }
-      }
-
-      if (!gameOver) {
-        score++;
-        document.getElementById("score").textContent = score;
-        requestAnimationFrame(draw);
-      } else {
-        ctx.fillStyle = "#f00";
-        ctx.font = "20px Arial";
-        ctx.fillText("Game Over!", 90, 200);
-      }
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft" && playerX > 0) playerX -= laneWidth;
-      if (e.key === "ArrowRight" && playerX < 200) playerX += laneWidth;
-    });
-
-    draw();
-  </script>
-
-</body>
-</html>
+<div class="game">
+  <h2>🚨 Wanted Not Waisted 🚗</h2>
+  <p>Use ⬅️ and ➡️ to dodge police cars. Score goes up the longer you survive!</p>
+  <button id="startBtn">Start Game</button>
+  <canvas id="gameCanvas" width="300" height="400" style="display:none;"></canvas>
+  <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
+  <button id="retryBtn" style="display:none;">Retry</button>
+</div>
