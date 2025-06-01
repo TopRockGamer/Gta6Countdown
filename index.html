@@ -8,19 +8,17 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: black;
+      background: black;
       color: white;
-      overflow-x: hidden;
     }
 
     #background-video {
       position: fixed;
       top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100vw; height: 100vh;
       z-index: -1;
-      opacity: 1;
       pointer-events: none;
+      opacity: 1;
     }
 
     header {
@@ -59,21 +57,19 @@
       border-radius: 8px;
       min-width: 120px;
       text-align: center;
-      font-size: 0.9rem;
-      color: #ccc;
     }
 
     .game-panel {
-      text-align: center;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0,0,0,0.7);
       border-radius: 8px;
       padding: 1rem;
       max-width: 400px;
+      text-align: center;
     }
 
     canvas {
       background: black;
-      border: 1px solid #444;
+      border: 2px solid #444;
       display: block;
       margin: 1rem auto;
     }
@@ -84,8 +80,8 @@
       border: none;
       padding: 0.5rem 1rem;
       font-size: 1rem;
-      margin-bottom: 1rem;
       cursor: pointer;
+      margin-bottom: 1rem;
       border-radius: 5px;
     }
 
@@ -96,15 +92,15 @@
 
     .footer {
       text-align: center;
-      font-size: 0.8rem;
       padding: 1rem;
+      font-size: 0.8rem;
       color: #777;
     }
   </style>
 </head>
 <body>
 
-<!-- Background Trailer -->
+<!-- Background trailer -->
 <iframe id="background-video"
         src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c"
         frameborder="0"
@@ -127,7 +123,7 @@
   <div class="game-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
     <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
-    <button id="startBtn">Start Game</button>
+    <button id="startBtn" disabled>Loading...</button>
     <canvas id="gameCanvas" width="300" height="400"></canvas>
 
     <div class="leaderboard">
@@ -147,9 +143,7 @@
 
 <div class="ad-bottom">[Bottom Ad Placeholder]</div>
 
-<div class="footer">
-  This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
-</div>
+<div class="footer">This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.</div>
 
 <script>
   // Countdown
@@ -180,28 +174,33 @@
   let gameRunning = false;
   let speed = 2;
   let keys = {};
+  let imagesLoaded = 0;
 
   const carImg = new Image();
-  carImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f697.png";
-
   const policeImg = new Image();
+
+  carImg.onload = policeImg.onload = () => {
+    imagesLoaded++;
+    if (imagesLoaded === 2) {
+      startBtn.disabled = false;
+    }
+  };
+
+  carImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f697.png";
   policeImg.src = "https://twemoji.maxcdn.com/v/latest/72x72/1f693.png";
 
   function spawnPolice() {
     const lanes = [30, 110, 190];
-    const used = [];
+    let lastLane = null;
+    police = [];
 
-    while (used.length < 2) {
+    while (police.length < 2) {
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
-      if (!used.includes(lane)) used.push(lane);
+      if (lane !== lastLane) {
+        police.push({ x: lane, y: -60 * (police.length + 1), width: 40, height: 30 });
+        lastLane = lane;
+      }
     }
-
-    police = used.map((x, i) => ({
-      x: x,
-      y: -60 * (i + 1),
-      width: 40,
-      height: 30
-    }));
   }
 
   function updateGame() {
@@ -227,7 +226,7 @@
         gameRunning = false;
         updateLeaderboard(score);
         startBtn.textContent = "Retry";
-        startBtn.style.display = "inline-block";
+        startBtn.disabled = false;
         return;
       }
 
@@ -240,6 +239,7 @@
     }
 
     ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
     ctx.fillText("Score: " + score, 10, 20);
 
     requestAnimationFrame(updateGame);
@@ -251,7 +251,8 @@
     speed = 2;
     keys = {};
     gameRunning = true;
-    startBtn.style.display = "none";
+    startBtn.disabled = true;
+    startBtn.textContent = "Running...";
     spawnPolice();
     updateGame();
   }
