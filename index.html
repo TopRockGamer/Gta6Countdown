@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GTA VI Countdown – Wanted Not Waisted</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial:400,700&display=swap">
   <style>
     body {
       margin: 0;
@@ -15,8 +14,7 @@
 
     #background-video {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       z-index: -1;
@@ -39,6 +37,13 @@
       margin-top: 0.5rem;
     }
 
+    .ad-top, .ad-bottom {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      color: #aaa;
+    }
+
     .container {
       display: flex;
       justify-content: space-between;
@@ -58,7 +63,7 @@
 
     .game-panel {
       text-align: center;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       border-radius: 8px;
       padding: 1rem;
       max-width: 400px;
@@ -97,13 +102,6 @@
       padding: 1rem;
       color: #777;
     }
-
-    .ad-top, .ad-bottom {
-      text-align: center;
-      padding: 1rem;
-      background: #111;
-      color: #aaa;
-    }
   </style>
 </head>
 <body>
@@ -116,20 +114,20 @@
         allowfullscreen>
 </iframe>
 
-<!-- Header with Logo & Countdown -->
+<!-- Header -->
 <header>
   <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <div class="countdown" id="countdown"></div>
 </header>
 
-<!-- Top Ad Banner -->
+<!-- Top Ad -->
 <div class="ad-top">[Top Ad Banner Placeholder]</div>
 
-<!-- Main Content Area -->
+<!-- Main Content -->
 <div class="container">
   <div class="ad-box">[Left Side Ad]</div>
 
-  <div style="flex: 1"></div> <!-- Spacer -->
+  <div style="flex: 1;"></div>
 
   <div class="game-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
@@ -153,10 +151,10 @@
   <div class="ad-box">[Right Side Ad]</div>
 </div>
 
-<!-- Bottom Ad Banner -->
-<div class="ad-bottom">[Ad Placeholder – Bottom Banner]</div>
+<!-- Bottom Ad -->
+<div class="ad-bottom">[Bottom Ad Placeholder]</div>
 
-<!-- Footer Disclaimer -->
+<!-- Footer -->
 <div class="footer">
   This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
 </div>
@@ -221,12 +219,11 @@
 
     for (let p of police) {
       p.y += speed;
-      ctx.drawImage(policeImg, p.x, p.y, p.width, p.height);
       if (p.y > canvas.height) {
         p.y = -40;
         p.x = Math.floor(Math.random() * (canvas.width - 40));
         score++;
-        if (score % 5 === 0) speed += 0.5;
+        if (score % 2 === 0 && speed < 12) speed += 0.3; // Game gets harder faster
       }
 
       if (
