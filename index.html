@@ -24,9 +24,16 @@
       opacity: 1;
     }
 
+    .top-ad {
+      text-align: center;
+      background-color: rgba(34, 34, 34, 0.6);
+      padding: 1rem;
+      font-size: 1rem;
+    }
+
     header {
       text-align: center;
-      padding: 2rem 1rem 1rem;
+      padding: 1rem;
     }
 
     header img {
@@ -52,7 +59,7 @@
       flex-wrap: wrap;
     }
 
-    .ad-left, .ad-right {
+    .ad-left {
       flex: 0 0 200px;
       background-color: rgba(34, 34, 34, 0.6);
       padding: 1rem;
@@ -64,6 +71,13 @@
       flex: 1;
       min-width: 300px;
       max-width: 600px;
+      background-color: rgba(34, 34, 34, 0.6);
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+
+    .game-panel {
+      flex: 0 0 300px;
       background-color: rgba(34, 34, 34, 0.6);
       padding: 1.5rem;
       border-radius: 10px;
@@ -110,53 +124,58 @@
         flex-direction: column;
         align-items: center;
       }
-      .ad-left, .ad-right {
-        display: none;
+
+      .ad-left, .game-panel {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- Background Trailer -->
+<!-- YouTube Background -->
 <iframe id="ytbg" src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&loop=1&playlist=VQRLujxTm3c&controls=0&modestbranding=1" frameborder="0" allow="autoplay"></iframe>
 
-<!-- Logo & Countdown -->
+<!-- Top Banner Ad -->
+<div class="top-ad">
+  [Top Ad Banner Placeholder]
+</div>
+
+<!-- Logo + Countdown -->
 <header>
   <img src="grand_theft_auto_vi-logo_brandlogos.net_6husz-512x388.png" alt="GTA VI Logo">
   <h1>GTA VI Countdown</h1>
   <div class="countdown" id="countdown">Loading...</div>
 </header>
 
-<!-- Layout: Left Ad | Game + Leaderboard | Right Ad -->
+<!-- Layout -->
 <div class="layout">
+  <!-- Left Ad -->
   <div class="ad-left">
     <h3>🔽 Ad</h3>
     <p>[Left-Side Ad Placeholder]</p>
   </div>
 
+  <!-- Description Panel -->
   <div class="content-panel">
     <h2>🚨 Wanted Not Waisted 🚗</h2>
     <p>Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</p>
+  </div>
+
+  <!-- Game & Leaderboard -->
+  <div class="game-panel">
     <button id="startBtn">Start Game</button>
     <canvas id="gameCanvas" width="300" height="400" style="display:none;"></canvas>
     <p id="scoreArea" style="display:none;">Score: <span id="score">0</span></p>
     <button id="retryBtn" style="display:none;">Retry</button>
-
     <h3>🏆 Leaderboard</h3>
     <ul id="leaderboardList"></ul>
-  </div>
-
-  <div class="ad-right">
-    <h3>📢 Sponsored</h3>
-    <p>[Top Banner Placeholder]</p>
-    <p style="margin-top: 2rem;">[Vertical or Responsive Ad]</p>
   </div>
 </div>
 
 <!-- Bottom Ad -->
 <div class="bottom-ad">
-  <p>[Ad Placeholder – Bottom Banner]</p>
+  [Ad Placeholder – Bottom Banner]
 </div>
 
 <!-- Disclaimer -->
@@ -164,12 +183,11 @@
   This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
 </p>
 
-<!-- Sounds -->
+<!-- Audio -->
 <audio id="siren" src="https://cdn.pixabay.com/audio/2021/09/15/audio_1cfa7f59c1.mp3" loop></audio>
 <audio id="crash" src="https://cdn.pixabay.com/audio/2022/03/30/audio_2854e6aafc.mp3"></audio>
 
 <script>
-  // Countdown
   const countdown = document.getElementById("countdown");
   const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
   setInterval(() => {
@@ -186,7 +204,6 @@
     countdown.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
   }, 1000);
 
-  // Game logic
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
   const startBtn = document.getElementById("startBtn");
