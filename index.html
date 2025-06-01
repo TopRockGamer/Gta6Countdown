@@ -106,12 +106,19 @@
     <!-- Left Ad -->
     <div class="ad-left">[Left Side Ad]</div>
 
-    <!-- Game Section -->
+    <!-- Center Game Section with Title and Rules -->
     <div class="game-section">
-      <div id="game-title">Wanted Not Waisted</div>
-      <div id="game-rules">Avoid the cops, collect power-ups, and survive as long as you can!</div>
+      <div id="game-title">🚨 Wanted Not Waisted 🚗</div>
+      <div id="game-rules">Use ⬅️ and ➡️ to dodge police cars. Score increases the longer you survive.</div>
       <canvas id="gameCanvas" width="400" height="300"></canvas>
-      <div id="leaderboard">Leaderboard: <br> [Local Scores Appear Here]</div>
+      <div id="leaderboard">
+        🏆 Leaderboard<br>
+        #1: 5250<br>
+        #2: 1676<br>
+        #3: 1279<br>
+        #4: 1255<br>
+        #5: 1023
+      </div>
     </div>
 
     <!-- Right Ad -->
@@ -119,7 +126,7 @@
   </div>
 
   <!-- Bottom Banner Ad -->
-  <div class="bottom-banner-ad">[Bottom Ad Banner Placeholder]</div>
+  <div class="bottom-banner-ad">[Ad Placeholder – Bottom Banner]</div>
 
   <!-- Background Video (Muted, Looping) -->
   <video class="bg-video" autoplay muted loop>
@@ -128,7 +135,7 @@
 
   <!-- Disclaimer -->
   <div class="disclaimer">
-    This is a fan-made countdown. Not affiliated with Rockstar Games or Take-Two Interactive.
+    This is a fan site. Not affiliated with Rockstar Games or Take-Two Interactive.
   </div>
 
   <script>
@@ -145,7 +152,7 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s until launch`;
+      countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
   </script>
 </body>
