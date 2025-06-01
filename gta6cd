@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GTA VI Countdown – Fan Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    .countdown { font-size: 2rem; margin: 1rem 0; }
+    .ad-block {
+      background: #222;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border: 1px dashed #444;
+    }
+    .poll, .game {
+      margin: 2rem 0;
+      background: #222;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    button {
+      background: #ff4d00;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>GTA VI Countdown</h1>
+  <p>The next era of Grand Theft Auto begins...</p>
+  <div class="countdown" id="countdown">Loading countdown...</div>
+
+  <div class="ad-block">
+    <!-- AD BLOCK TOP -->
+    <p>[Ad Placeholder - Top Banner]</p>
+  </div>
+
+  <div class="poll">
+    <h2>What are you most hyped for in GTA VI?</h2>
+    <form id="pollForm">
+      <label><input type="radio" name="vote"> Vice City Map</label><br>
+      <label><input type="radio" name="vote"> Dual Protagonists</label><br>
+      <label><input type="radio" name="vote"> New Online Mode</label><br>
+      <label><input type="radio" name="vote"> Better Graphics & AI</label><br><br>
+      <button type="submit">Vote</button>
+    </form>
+    <p id="thanks" style="display:none;">Thanks for voting!</p>
+  </div>
+
+  <div class="game">
+    <h2>Play While You Wait</h2>
+    <p>Embed a mini-game here:</p>
+    <!-- Embed your game iframe below -->
+    <iframe src="https://example.com/your-game" width="100%" height="400" frameborder="0"></iframe>
+  </div>
+
+  <div class="ad-block">
+    <!-- AD BLOCK BOTTOM -->
+    <p>[Ad Placeholder - Footer Banner]</p>
+  </div>
+
+  <p style="font-size: 0.9rem; color: #888; margin-top: 2rem;">
+    This is a fan project and is not affiliated with Rockstar Games or Take-Two Interactive.
+  </p>
+
+  <script>
+    // Countdown Timer
+    const countdown = document.getElementById("countdown");
+    const releaseDate = new Date("May 26, 2026 00:00:00").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = releaseDate - now;
+
+      if (distance < 0) {
+        countdown.innerHTML = "GTA VI is OUT NOW!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+
+    // Poll Handling
+    document.getElementById("pollForm").onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById("pollForm").style.display = "none";
+      document.getElementById("thanks").style.display = "block";
+    };
+  </script>
+
+</body>
+</html>
